@@ -10,9 +10,34 @@
  * @returns returns an array of all industries in the dataset
  */
 function listIndustries(data){
+  if(!_.every(data,hasIndustry)){
+    throw new Error("No industry field");
+  }
+  if(!_.every(data,hasContent)){
+    throw new Error("Empty industry field");
+  }
   return _.uniq(_.pluck(data, 'Industry'));
 }
 
+/**
+ * helper function that determines if a record contains an indystry field
+ * @param record Record to examine
+ * @returns {boolean} true if contains a record
+ */
+function hasIndustry(record){
+  return record.hasOwnProperty("Industry");
+}
+/**
+ * helper function to determine if a record has an entry in its industry field
+ * @param record record to examine
+ * @returns true if has a string in industry that is not ""
+ */
+function hasContent(record){
+  if(record["Industry"].length!==0){
+    return true;
+  }
+  return false;
+}
 /**
  * Creates a new array where key are County names and values for each key are number of Green Jobs in the County
  * @param data GreenJobs dataset
